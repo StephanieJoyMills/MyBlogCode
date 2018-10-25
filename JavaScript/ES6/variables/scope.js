@@ -67,4 +67,8 @@ function functionScope() {
   console.log(`We now see the ${blockScope} value`); // old
   console.log(`We now see the ${functionScope} value`); // old
 }
+
 introToScope();
+theoreticalDynamicScoping();
+playingWithGlobalObj();
+functionScope();

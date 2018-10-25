@@ -45,8 +45,6 @@ function expectedUnexpectedBehaviour() {
 }
 
 function fixingUnexpectedBahviour() {
-  // Let solves this due to the scope
-  // Javascript is reading this as
   let goodVar = "we want to see this";
   function goodBehaviour() {
     if (false) {
@@ -57,6 +55,10 @@ function fixingUnexpectedBahviour() {
   goodBehaviour();
 }
 
+hoistingWithVar();
+notHoistingWithLet();
+weWrite();
+jsReads();
 unexpectedBehaviour();
 expectedUnexpectedBehaviour();
 fixingUnexpectedBahviour();
