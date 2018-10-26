@@ -369,8 +369,10 @@ If we switched to let or const, each iteration of the loop would create a new bi
   }
   console.log();
 ```
+- We tend to avoid for loops now a day as iteration tools allow us to safely move through an array without manually hence the popularity 
 
-With let each iteration of the for loop creates an additional binding. If we used var
+- when iterating thorugh an array we just use a forEach 
+- does forEach create a new binding each time 
 
 #### Part 4: Redeclaring
 
@@ -409,6 +411,8 @@ By using let, we avoid accidentally reusing the same variables
 
 Now that we understand var, let and const better we can outline their life cycle. Try to think about this first!
 
+-> temporal deadzone explain the term 
+
 Life cycle of a var:
 
 1. We enter a var's scope
@@ -422,6 +426,9 @@ Life cycle of a let:
    ------ Entering TDZ -----
 3. Getting or setting uninitialized let throws a ReferenceError
 4. Declaration is reached & value is updated to initializing. If no initial value, set to undefined
+
+--> clairfy between declartion and initilization => hositing
+--> let and const are moved to top in declration but not init
    ----- Leaving TDZ --------
 
 Const has the same lifecycle as let, but it must have an initial value in step 4
@@ -431,7 +438,7 @@ Temporal dead zones don't sounds like very nice places, so why would we ever int
 • TDZ was actually the best solution to technical issues with const's implementation. Let was designed to mimic the same behaviour for consistency
 • Future-proofing for guards: JavaScript may eventually have guards, a mechanism for enforcing at runtime that a variable has the correct value (think runtime type check). If the value of a variable is undefined before its declaration then that value may be in conflict with the guarantee given by its guard.
 
-#### Recap
+#### Recap -> Move recap before test
 
 Scope:
 
