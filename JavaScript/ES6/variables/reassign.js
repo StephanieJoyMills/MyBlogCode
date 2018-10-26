@@ -17,5 +17,13 @@ function constantNotConstant() {
   console.log(obj);
 }
 
+function constantArr() {
+  const arr = ["you", "can", "change", "me"];
+  arr[1] = "did";
+  arr.push(":D");
+  console.log(arr); // [ 'you', 'did', 'change', 'me', ':D' ]
+}
+
 declaringAConst();
 constantNotConstant();
+constantArr();

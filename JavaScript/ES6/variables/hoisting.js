@@ -55,10 +55,38 @@ function fixingUnexpectedBahviour() {
   goodBehaviour();
 }
 
-hoistingWithVar();
-notHoistingWithLet();
-weWrite();
-jsReads();
-unexpectedBehaviour();
-expectedUnexpectedBehaviour();
-fixingUnexpectedBahviour();
+function forWithVar() {
+  const varArrLogs = [];
+  for (var i = 0; i < 3; i++) {
+    varArrLogs.push(() => {
+      process.stdout.write(` ${i} `);
+    });
+  }
+  for (const log of varArrLogs) {
+    log(); //  3  3  3
+  }
+  console.log();
+}
+
+function forWithLet() {
+  const letArrLogs = [];
+  for (let i = 0; i < 3; i++) {
+    letArrLogs.push(() => {
+      process.stdout.write(` ${i} `);
+    });
+  }
+  for (const log of letArrLogs) {
+    log(); // 0  1  2
+  }
+  console.log();
+}
+
+// hoistingWithVar();
+// notHoistingWithLet();
+// weWrite();
+// jsReads();
+// unexpectedBehaviour();
+// expectedUnexpectedBehaviour();
+// fixingUnexpectedBahviour();
+forWithVar();
+forWithLet();
