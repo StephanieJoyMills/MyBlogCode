@@ -56,6 +56,26 @@ We have to options when it comes to storage, _"Stack"_ and _"Heap"_:
 
 So going back to our earlier point, "An environment will sometimes need to live on after it's scope, therefore variables are allocated on the heap", because we don't want our variable storage to be temporary, it makes sense we are using the heap.
 
+This does not mean Javascript only uses heap storage.
+
+Like most languages, when a function is called it creates new storage for it's _execution context_ or the 'environment' a function executes in. This is made up of the following:
+
+- variable scope (and the scope chain, variables in closures from outer scopes)
+- function arguments
+- value of object.data
+
+These exectutions are stored in the call _stack_ which, you guessed it, is a stack!
+
+At the bottom of our stack is the Global Execution Conext which is made up of:
+
+1. Global Object
+2. this object
+3. Ref to outer enviornment
+
+http://davidshariff.com/blog/wp-content/uploads/2012/06/ecstack.jpg
+
+Once we are done with a function execution, it is popped off out stack and we reclaim this storage space
+
 Now to the good stuff!
 
 #### Part 1: Scope
@@ -257,7 +277,7 @@ For those curious, the additional features array's have are:
 
 So what is hoisting?
 
-Hoisting is when javascript moves **declarations** (not initializations) to the top of their scope
+Hoisting is when javascript moves declarations of a a var to the top of their scope AND sets it's initial value to undefined (this will be explained in more detail in Part 5)
 
 Our table tells us:
 
@@ -344,7 +364,7 @@ Let's test our understanding with a more difficult example!
   const varArrLogs = [];
   for (var i = 0; i < 3; i++) {
     varArrLogs.push(() => {
-      process.stdout.write(` ${i} `);
+      process.stdout.write(` ${i} `); // Notice this is a function!
     });
   }
   for (const log of varArrLogs) {
@@ -369,8 +389,6 @@ If we switched to let or const, each iteration of the loop would create a new bi
   }
   console.log();
 ```
-
-With let each iteration of the for loop creates an additional binding. If we used var
 
 #### Part 4: Redeclaring
 
@@ -405,32 +423,6 @@ By using let, we avoid accidentally reusing the same variables
   console.log(res); // important data!
 ```
 
-#### Part 5: Testing our understanding
-
-Now that we understand var, let and const better we can outline their life cycle. Try to think about this first!
-
-Life cycle of a var:
-
-1. We enter a var's scope
-2. Declaration is hoisted to the top, and binding is created for it. An initial value of undefined is set.
-3. Actual initialization is reached (if there is one) and value is updated
-
-Life cycle of a let:
-
-1. We enter a let's scope
-2. Declaration is hoisted to the top, and binding is created for it. BUT the variable remains uninitialized
-   ------ Entering TDZ -----
-3. Getting or setting uninitialized let throws a ReferenceError
-4. Declaration is reached & value is updated to initializing. If no initial value, set to undefined
-   ----- Leaving TDZ --------
-
-Const has the same lifecycle as let, but it must have an initial value in step 4
-
-Temporal dead zones don't sounds like very nice places, so why would we ever intentionally design variables to create one? There's actually several reasons!
-• Error Catching! Trying to access an undeclared variable is generally a mistake and should involve a warning
-• TDZ was actually the best solution to technical issues with const's implementation. Let was designed to mimic the same behaviour for consistency
-• Future-proofing for guards: JavaScript may eventually have guards, a mechanism for enforcing at runtime that a variable has the correct value (think runtime type check). If the value of a variable is undefined before its declaration then that value may be in conflict with the guarantee given by its guard.
-
 #### Recap
 
 Scope:
@@ -450,10 +442,39 @@ Redeclared
 - Ability to declare variables with the same name, inside the same scope.
 
 Taking one last (I promise) look at our table:
-| Keyword | Scope | Hoisting | Reassigned | Redeclared |
-|:---:|:---:|:-----------:|:-----------:|:-----------:|
-|var|Function|Yes|Yes|Yes|
-|let|Block|No|Yes |No|
-|const|Block|No|No|No|
+
+| Keyword |  Scope   | Hoisting | Reassigned | Redeclared |
+| :-----: | :------: | :------: | :--------: | :--------: |
+|   var   | Function |   Yes    |    Yes     |    Yes     |
+|   let   |  Block   |    No    |    Yes     |     No     |
+|  const  |  Block   |    No    |     No     |     No     |
 
 I hope it now provides a simple recap of the differences/similarities between var, let and const!
+
+#### Part 5: Testing our understanding
+
+Now that we understand var, let and const better we can outline their life cycle. Try to think about this first!
+
+Life cycle of a var:
+
+1. We enter a var's scope
+2. Varibles is hoisted to the top: aka declaration is moved to the top, and binding is created for it AND an initial value of _undefined_ is set.
+3. Actual initialization is reached (if there is one) and value is updated
+
+Life cycle of a let:
+
+1. We enter a let's scope
+2. (Varible is NOT hoisted) Declaration is moved to the top, and binding is created for it BUT the variable remains _uninitialized_
+   ------ Entering Temportal Dead Zone -----
+3. Getting or setting uninitialized let throws a ReferenceError
+4. Declaration is reached & value is updated to initializing. If no initial value, set to undefined
+   ----- Leaving Temportal Dead Zone --------
+
+Const has the same lifecycle as let, but it must have an initial value in step 4
+
+Notice step 3 & 4 for the life cycle of let/const are surrounded by a "Temporal Dead Zone". This is simply a term simply referes to the zone when we can't access our variables.
+
+Temporal dead zones don't sounds like very nice places, so why would we ever intentionally design variables to create one? There's actually several reasons!
+• Error Catching! Trying to access an undeclared variable is generally a mistake and should involve a warning
+• TDZ was actually the best solution to technical issues with const's implementation. Let was designed to mimic the same behaviour for consistency
+• Future-proofing for guards: JavaScript may eventually have guards, a mechanism for enforcing at runtime that a variable has the correct value (think runtime type check). If the value of a variable is undefined before its declaration then that value may be in conflict with the guarantee given by its guard.

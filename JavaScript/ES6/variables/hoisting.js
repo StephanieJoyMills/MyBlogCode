@@ -1,10 +1,12 @@
+const { functionOutput } = require("../../Helpers/formatFunctionOutput.js");
+
 function hoistingWithVar() {
   console.log(declaredBelow); // undefined
   var declaredBelow;
   console.log(declaredBelow); // undefined
 }
 function notHoistingWithLet() {
-  console.log(declaredBelow); // ReferenceError: declaredBelow is not defined
+  // console.log(declaredBelow); // ReferenceError: declaredBelow is not defined
   let declaredBelow;
   console.log(declaredBelow); // undefined
 }
@@ -81,12 +83,15 @@ function forWithLet() {
   console.log();
 }
 
-// hoistingWithVar();
-// notHoistingWithLet();
-// weWrite();
-// jsReads();
-// unexpectedBehaviour();
-// expectedUnexpectedBehaviour();
-// fixingUnexpectedBahviour();
-forWithVar();
-forWithLet();
+const funcArr = [
+  hoistingWithVar,
+  notHoistingWithLet,
+  weWrite,
+  jsReads,
+  unexpectedBehaviour,
+  expectedUnexpectedBehaviour,
+  fixingUnexpectedBahviour,
+  forWithVar,
+  forWithLet
+];
+functionOutput(funcArr);

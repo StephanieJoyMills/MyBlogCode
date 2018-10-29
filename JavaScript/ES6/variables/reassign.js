@@ -1,7 +1,10 @@
+const { functionOutput } = require("../../Helpers/formatFunctionOutput.js");
+
 function declaringAConst() {
   // const bad; // Uncaught SyntaxError: Missing initializer in const declaration
   const good = "no errors here!";
   // good = "error here.."; // TypeError: Assignment to constant variable.
+  console.log("no output");
 }
 
 function constantNotConstant() {
@@ -24,6 +27,5 @@ function constantArr() {
   console.log(arr); // [ 'you', 'did', 'change', 'me', ':D' ]
 }
 
-declaringAConst();
-constantNotConstant();
-constantArr();
+const funcArr = [declaringAConst, constantNotConstant, constantArr];
+functionOutput(funcArr);

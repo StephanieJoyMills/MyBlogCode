@@ -1,3 +1,5 @@
+const { functionOutput } = require("../../Helpers/formatFunctionOutput.js");
+
 function redeclaringVar() {
   var res = "important data!";
   var res = "whoops";
@@ -6,7 +8,7 @@ function redeclaringVar() {
 
 function redeclaringLet() {
   let res = "important data!";
-  let res = "NOPE!"; // SyntaxError: Identifier 'res' has already been declared
+  // let res = "NOPE!"; // SyntaxError: Identifier 'res' has already been declared
   console.log(res); // important data!
   if (true) {
     let res =
@@ -16,5 +18,5 @@ function redeclaringLet() {
   console.log(res); // important data!
 }
 
-redeclaringVar();
-redeclaringLet();
+const funcArr = [redeclaringVar, redeclaringLet];
+functionOutput(funcArr);

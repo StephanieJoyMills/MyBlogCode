@@ -1,3 +1,5 @@
+const { functionOutput } = require("../../Helpers/formatFunctionOutput.js");
+
 function introToScope() {
   // Initialize a global (outermost) variable
   global.globalScope = "outside";
@@ -30,6 +32,7 @@ function theoreticalDynamicScoping() {
     calledSecond();
   }
   // calledFirst(); Would trigger `ReferenceError: declareMe is not defined`
+  console.log("no output");
 }
 
 function playingWithGlobalObj() {
@@ -68,7 +71,11 @@ function functionScope() {
   console.log(`We now see the ${functionScope} value`); // old
 }
 
-introToScope();
-theoreticalDynamicScoping();
-playingWithGlobalObj();
-functionScope();
+const funcArr = [
+  introToScope,
+  theoreticalDynamicScoping,
+  playingWithGlobalObj,
+  blockScope,
+  functionScope
+];
+functionOutput(funcArr);
