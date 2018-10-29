@@ -390,6 +390,8 @@ If we switched to let or const, each iteration of the loop would create a new bi
   console.log();
 ```
 
+Modern programming generally avoids the use of classic for loops, in favour of loops such as forEach.
+
 #### Part 4: Redeclaring
 
 Redeclaring is, as one would guess, declaring an already existing variable _in the same scope_
